@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link href="styles.css" rel="stylesheet" />
+    <title>Password</title>
+  </head>
+
+  <body>
+    <article>
+      <header>
+        <h2>Password Checker</h2>
+      </header>
+    </article>
+    <article>
+      <form action="">
+        <fieldset class="bot-bor">
+          <label for="psw">
+            <div class="larger-text">Enter your Password</div>
+            <input
+              id="psw"
+              type="password"
+              pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
+              title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters"
+              required
+            />
+            <!-- <input type="checkbox" onclick="Toggle()" />Show Password -->
+          </label>
+          <button type="button" onclick="Toggle()">Show/Hide Password</button>
+        </fieldset>
+        <div class="bot-bor">
+          <input type="submit" value="Submit" />
+        </div>
+      </form>
+      <div id="message">
+        <h3 class="center-text">Password must contain the following:</h3>
+        <ul>
+          <strong>
+            <li>
+              <p id="letter" class="invalid left-text">A lowercase letter</p>
+            </li>
+            <li>
+              <p id="capital" class="invalid left-text">An uppercase letter</p>
+            </li>
+            <li>
+              <p id="number" class="invalid left-text">A number</p>
+            </li>
+            <li>
+              <p id="length" class="invalid left-text">Minimum 8 characters</p>
+            </li>
+          </strong>
+        </ul>
+
+        <button type="button" onclick="GRP()" class="GRP">
+          Generate Random Password
+        </button>
+        <br />
+        <div>
+          <p id="ranpass"></p>
+        </div>
+      </div>
+    </article>
+
+    <script>
+      var myInput = document.getElementById("psw");
+      var letter = document.getElementById("letter");
+      var capital = document.getElementById("capital");
+      var number = document.getElementById("number");
+      var length = document.getElementById("length");
+
+      // When the user starts to type something inside the password field
+      myInput.onkeyup = function () {
+        // Validate lowercase letters
+        var lowerCaseLetters = /[a-z]/g;
+        if (myInput.value.match(lowerCaseLetters)) {
+          letter.classList.remove("invalid");
+          letter.classList.add("valid");
+        } else {
+          letter.classList.remove("valid");
+          letter.classList.add("invalid");
+        }
+
+        // Validate capital letters
+        var upperCaseLetters = /[A-Z]/g;
+        if (myInput.value.match(upperCaseLetters)) {
+          capital.classList.remove("invalid");
+          capital.classList.add("valid");
+        } else {
+          capital.classList.remove("valid");
+          capital.classList.add("invalid");
+        }
+
+        // Validate numbers
+        var numbers = /[0-9]/g;
+        if (myInput.value.match(numbers)) {
+          number.classList.remove("invalid");
+          number.classList.add("valid");
+        } else {
+          number.classList.remove("valid");
+          number.classList.add("invalid");
+        }
+
+        // Validate length
+        if (myInput.value.length >= 8) {
+          length.classList.remove("invalid");
+          length.classList.add("valid");
+        } else {
+          length.classList.remove("valid");
+          length.classList.add("invalid");
+        }
+      };
+
+      // Change the type of input to password or text
+      function Toggle() {
+        var temp = document.getElementById("psw");
+        if (temp.type === "password") {
+          temp.type = "text";
+        } else {
+          temp.type = "password";
+        }
+      }
+    </script>
+    <script>
+      var el_down = document.getElementById("ranpass");
+
+      /* Function to generate combination of password */
+      function generateP() {
+        var pass = "";
+        var str =
+          "ABCDEFGHIJKLMNOPQRSTUVWXYZ" +
+          "abcdefghijklmnopqrstuvwxyz0123456789@#$";
+
+        for (let i = 1; i <= 12; i++) {
+          var char = Math.floor(Math.random() * str.length + 1);
+
+          pass += str.charAt(char);
+        }
+
+        return pass;
+      }
+
+      function GRP() {
+        el_down.innerHTML = generateP();
+      }
+    </script>
+  </body>
+</html>
